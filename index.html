@@ -8,15 +8,7 @@
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; background: #EBF4FC; }
-    #root { min-height: 100%; }
-    button, input, select { font-family: 'Nunito', 'Segoe UI', sans-serif; }
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #EBF4FC; }
-    ::-webkit-scrollbar-thumb { background: #C8DFF0; border-radius: 3px; }
-  </style>
+  <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;background:#EBF4FC;}#root{min-height:100%;}button,input,select{font-family:'Nunito','Segoe UI',sans-serif;}::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:#EBF4FC;}::-webkit-scrollbar-thumb{background:#C8DFF0;border-radius:3px;}</style>
 </head>
 <body>
   <div id="root"></div>
@@ -171,6 +163,8 @@ const IXS = [
   { from:'Business Owners', fc:R.amber, to:'Product Owners', tc:R.purp, icon:'✏️', when:'Discovery, UAT y validación comercial de features antes de lanzar', ctx:'El BO y el PO son socios de producto-negocio: el BO trae el por qué comercial — qué debe lograr la feature desde el canal — y el PO trae el qué es posible y cuándo. El momento más crítico de esta sociedad es el UAT: el BO no valida solo que funciona, sino que resuelve el problema comercial que planteó. Sin esa validación conjunta, se entrega algo funcionalmente correcto pero comercialmente irrelevante.', gives:['Contexto comercial del canal','Criterios de éxito desde el negocio','Prioridades del campo','Feedback de aliados o usuarios sobre lo ya lanzado'], gets:['Qué es factible y en qué sprint','Cómo se está usando el producto (analytics)','Trade-offs entre lo pedido y la capacidad disponible'] },
   { from:'Process Owners', fc:R.coral, to:'Project Managers', tc:R.gray, icon:'🔗', when:'Automatizaciones, integraciones, QA de flujos', ctx:'El Process Owner y el Project Manager son socios de implementación: el ProcOwner diseña y especifica el proceso operativo; el Project Manager lo implementa técnicamente. Sin esta sociedad, el producto existe pero no opera — la feature llega sin el flujo que la sostiene.', gives:['Especificaciones AS-IS y TO-BE','Reglas de negocio','Casos de prueba operativos'], gets:['Implementación de flujos','Logs y trazabilidad','Alertas cuando el proceso no se puede automatizar como se especificó'] },
   { from:'Process Owners', fc:R.coral, to:'Country Manager', tc:R.blue, icon:'📋', when:'Pre-lanzamiento, configuración local, post-mortem', ctx:'El Process Owner y el Country Manager son socios de aterrizaje: el ProcOwner llega con el playbook operativo diseñado; el CM aporta las particularidades regulatorias y comerciales del país que el playbook no puede anticipar desde lo regional. Juntos ajustan antes del lanzamiento, no durante.', gives:['Playbook operativo por país','Checklist de lanzamiento','Flujos adaptados al mercado'], gets:['Particularidades regulatorias locales','Comportamiento real de aliados en el país','Retroalimentación post-lanzamiento'] },
+  { from:'Country Manager', fc:R.blue, to:'Product Manager', tc:R.teal, icon:'✅', when:'Aprobación de backlog · revisión de hoja de ruta · negociación de prioridades y alcance', ctx:'El CM es el dueño del país. Toda iniciativa — venga del BO, del PM, del PO, de la BU o de un Process Owner — debe tener su aprobación antes de entrar al backlog. El PM le presenta una hoja de ruta clara: qué se entrega, cuándo y cómo se medirá el éxito. El CM no suelta el control hasta tener esa claridad. Cuando el PO hace una contrapropuesta, el PM la trae al CM para negociar el balance entre lo que el país necesita y lo que el producto puede entregar realistamente.', gives:['Aprobación o rechazo de la iniciativa para el backlog','Criterios de éxito desde la perspectiva del país','Prioridades comerciales y regulatorias locales','Ajustes tras la contrapropuesta del PO'], gets:['Hoja de ruta de implementación clara: qué, cuándo y con quién','Contrapropuesta del PO con alcance y timelines reales','Cómo se medirá el éxito en el país'] },
+  { from:'Country Manager', fc:R.blue, to:'Product Owners', tc:R.purp, icon:'🔍', when:'Revisiones periódicas, validación de outcomes, UAT local, señales del campo', ctx:'El CM no quiere alejarse del producto. Aunque el PM es su interlocutor principal de priorización, el CM mantiene contacto directo con los POs: entiende el estado real del producto en su mercado, valida que los outcomes esperados se están cumpliendo y trae señales del cliente que el PM no siempre captura. Esta relación es de observación y validación — no de asignación de prioridades ni de gestión del backlog. El PO escucha al CM, pero prioriza a través del PM.', gives:['Señales del campo y del cliente local','Validación de si el producto resuelve el problema en el mercado','Contexto regulatorio y comercial específico del país'], gets:['Estado real del producto en el país','Métricas de adopción y resultado','Alertas tempranas de lo que no está funcionando localmente'] },
 ];
 const CLUSTERS = [
   { id:'venta', label:'Venta', c:R.teal, leader:'Catherine Tobón', desc:'Cotización y compra de nuevos seguros.', kpi:{ main:'Ventas Nuevas ($ y Cantidad)', int:['%SR','Cantidad de Leads','%Migración Venta'] }, squads:[
@@ -239,39 +233,44 @@ const INIT_G = [
   ]},
 ];
 const FLOW_STEPS = [
-  { phase:'Priorización', c:R.blue, loop:false, steps:[
-    { n:1,  l:'Priorización de la iniciativa con datos', actors:[['PM','teal'],['BU','purp']], manual:null },
-    { n:2,  l:'Entra la iniciativa priorizada al squad', actors:[['PM','teal']], manual:null },
-    { n:3,  l:'Asignar el squad que va a trabajar la iniciativa', actors:[['PM','teal'],['PO','purp']], manual:null },
+  { phase:'Priorización y negociación', c:R.blue, loop:false, steps:[
+    { n:1, l:'Llega la iniciativa al PM con contexto de negocio', actors:[['PM','teal'],['BU','purp']], manual:'Cualquier iniciativa — venga del BO, del PO, de la BU, de un Process Owner o del CM directamente — pasa primero por el PM. El PM la prioriza frente al portafolio completo.' },
+    { n:2, l:'PM construye la hoja de ruta de implementación para el CM', actors:[['PM','teal']], manual:'La hoja de ruta incluye: qué se entrega, timelines honestos, qué POs y squads están involucrados y cómo se medirá el éxito en el país. Sin este documento el CM no aprueba.' },
+    { n:3, l:'CM revisa y aprueba la iniciativa para que entre al backlog', actors:[['CM','blue'],['PM','teal']], manual:'El CM es el dueño del país. Toda iniciativa debe tener su aprobación antes de entrar al backlog — sin excepción. El CM puede aprobar, rechazar o pedir ajustes. No suelta el control hasta tener claridad total sobre el impacto esperado en el mercado.' },
+    { n:4, l:'PM traslada las prioridades del CM al PO del producto involucrado', actors:[['PM','teal'],['PO','purp']], manual:'El PM le dice al PO: "El CM aprobó esta iniciativa con estos criterios de éxito y estos timelines." El PO recibe el contexto completo del por qué comercial y del país.' },
+    { n:5, l:'PO hace la contrapropuesta: conoce su backlog y sabe qué es viable', actors:[['PO','purp'],['PM','teal']], manual:'El PO es dueño de su backlog de features y mejoras intrínsecas del producto. Conoce la deuda técnica, las dependencias y el ritmo real del squad. Su contrapropuesta puede ajustar alcance, secuencia o timelines — sin perder el objetivo del CM.' },
+    { n:6, l:'PM negocia con CM y BO: presenta la contrapropuesta y cierra el acuerdo', actors:[['PM','teal'],['CM','blue'],['BO','amber']], manual:'El PM lleva la contrapropuesta del PO al CM y al BO. Aquí se negocia el balance entre lo que el país necesita (CM), lo que el canal pide (BO) y lo que el producto puede entregar (PO). El PM traduce, media y cierra un acuerdo realista. Sin acuerdo, no se asigna squad.' },
+    { n:7, l:'Entra la iniciativa al backlog del squad con el alcance acordado', actors:[['PM','teal']], manual:null },
+    { n:8, l:'Asignar el squad que va a trabajar la iniciativa', actors:[['PM','teal'],['PO','purp']], manual:null },
   ]},
   { phase:'Arranque', c:R.amber, loop:false, steps:[
-    { n:4,  l:'Planeación inicial: cómo se abordará la iniciativa', actors:[['PO','purp'],['PM','teal']], manual:'Se define qué se espera de cada equipo y los pasos a seguir. El aliado recibe contexto y el PM queda al tanto.' },
-    { n:5,  l:'Reunión de kick-off: contexto a alto nivel y cómo se va a trabajar', actors:[['PO','purp'],['PM','teal'],['Squad','gray'],['Aliado','amber']], manual:null },
+    { n:9,  l:'Planeación inicial: cómo se abordará la iniciativa', actors:[['PO','purp'],['PM','teal']], manual:'Se define qué se espera de cada equipo y los pasos a seguir. El aliado recibe contexto y el PM queda al tanto.' },
+    { n:10, l:'Reunión de kick-off: contexto a alto nivel y cómo se va a trabajar', actors:[['PO','purp'],['PM','teal'],['Squad','gray'],['Aliado','amber']], manual:null },
   ]},
   { phase:'Diseño y Discovery', c:R.teal, loop:false, steps:[
-    { n:6,  l:'Diseño del proceso o iniciativa a alto nivel', actors:[['PO','purp'],['ProcOwner','coral']], manual:null },
-    { n:7,  l:'Refinamiento del equipo técnico a alto nivel', actors:[['PO','purp'],['Squad técnico','gray']], manual:null },
-    { n:8,  l:'Discovery (primera vez) o estimación técnica del equipo', actors:[['PO','purp'],['Squad técnico','gray'],['PM','teal']], manual:'La estimación indica cuántos sprints hay y qué se entrega en cada uno. Esta estimación la recibe el aliado y el PM. Si es proceso manual, la estimación se saca con los equipos encargados de ejecutarlo.' },
+    { n:11, l:'Diseño del proceso o iniciativa a alto nivel', actors:[['PO','purp'],['ProcOwner','coral']], manual:null },
+    { n:12, l:'Refinamiento del equipo técnico a alto nivel', actors:[['PO','purp'],['Squad técnico','gray']], manual:null },
+    { n:13, l:'Discovery (primera vez) o estimación técnica del equipo', actors:[['PO','purp'],['Squad técnico','gray'],['PM','teal']], manual:'La estimación indica cuántos sprints hay y qué se entrega en cada uno. Esta estimación la recibe el aliado y el PM. Si es proceso manual, la estimación se saca con los equipos encargados de ejecutarlo.' },
   ]},
   { phase:'Plan de trabajo', c:R.purp, loop:false, steps:[
-    { n:9,  l:'Construcción del plan de trabajo y proyección de sprints', actors:[['PO','purp'],['PM','teal'],['Squad técnico','gray']], manual:'Si es proceso manual, el plan se concreta con los equipos encargados de ejecutar el proceso.' },
+    { n:14, l:'Construcción del plan de trabajo y proyección de sprints', actors:[['PO','purp'],['PM','teal'],['Squad técnico','gray']], manual:'Si es proceso manual, el plan se concreta con los equipos encargados de ejecutar el proceso.' },
   ]},
   { phase:'Construcción · se repite por cada sprint', c:R.coral, loop:true, steps:[
-    { n:10, l:'Se escriben las historias de usuario del sprint', actors:[['PO','purp']], manual:'Si es proceso manual: se escribe el instructivo o se detalla completamente el proceso.' },
-    { n:11, l:'Se refinan las HUs con el equipo técnico con detalle', actors:[['PO','purp'],['Squad técnico','gray']], manual:'Si es proceso manual: se refina el instructivo con los involucrados y encargados de ejecutarlo.' },
-    { n:12, l:'Se refinan las HUs con el equipo técnico de ST si es necesario', actors:[['PO','purp'],['Squad técnico','gray']], manual:'Si es proceso manual: se refina con el equipo técnico si es necesario.' },
-    { n:13, l:'La HU entra a planning y se desarrolla', actors:[['Squad técnico','gray'],['PO','purp']], manual:null },
-    { n:14, l:'Seguimiento a la proyección de sprints', actors:[['PM','teal'],['PO','purp']], manual:null },
+    { n:15, l:'Se escriben las historias de usuario del sprint', actors:[['PO','purp']], manual:'Si es proceso manual: se escribe el instructivo o se detalla completamente el proceso.' },
+    { n:16, l:'Se refinan las HUs con el equipo técnico con detalle', actors:[['PO','purp'],['Squad técnico','gray']], manual:'Si es proceso manual: se refina el instructivo con los involucrados y encargados de ejecutarlo.' },
+    { n:17, l:'Se refinan las HUs con el equipo técnico de ST si es necesario', actors:[['PO','purp'],['Squad técnico','gray']], manual:'Si es proceso manual: se refina con el equipo técnico si es necesario.' },
+    { n:18, l:'La HU entra a planning y se desarrolla', actors:[['Squad técnico','gray'],['PO','purp']], manual:null },
+    { n:19, l:'Seguimiento a la proyección de sprints', actors:[['PM','teal'],['PO','purp']], manual:null },
   ]},
   { phase:'Validación', c:R.green, loop:false, steps:[
-    { n:15, l:'Demo con el squad completo — se evidencia lo construido', actors:[['PO','purp'],['PM','teal'],['BU','purp'],['Squad','gray']], manual:'En la demo salen ajustes o pueden no salir. Para proceso manual también debe haber una demo que se entrega al contact o a los equipos encargados.' },
-    { n:16, l:'Se realizan ajustes con las HUs requeridas', actors:[['PO','purp'],['Squad técnico','gray']], manual:null },
-    { n:17, l:'Se hacen pruebas internas', actors:[['PO','purp'],['Squad técnico','gray'],['PM','teal']], manual:null },
+    { n:20, l:'Demo con el squad completo — se evidencia lo construido', actors:[['PO','purp'],['PM','teal'],['BU','purp'],['Squad','gray']], manual:'En la demo salen ajustes o pueden no salir. Para proceso manual también debe haber una demo que se entrega al contact o a los equipos encargados.' },
+    { n:21, l:'Se realizan ajustes con las HUs requeridas', actors:[['PO','purp'],['Squad técnico','gray']], manual:null },
+    { n:22, l:'Se hacen pruebas internas', actors:[['PO','purp'],['Squad técnico','gray'],['PM','teal']], manual:null },
   ]},
   { phase:'Producción', c:R.blue, loop:false, steps:[
-    { n:18, l:'Verificación y Go para el paso a producción', actors:[['PO','purp'],['PM','teal'],['BU','purp']], manual:'Para proceso manual: en espacios previos se obtiene el Go, se definen y aceptan características y flujo. Se entrega el UX al equipo encargado.' },
-    { n:19, l:'Despliegue en producción', actors:[['Squad técnico','gray'],['PO','purp']], manual:'Para proceso manual: el despliegue es el momento en que el equipo empieza a ejecutar el proceso.' },
-    { n:20, l:'Estadística y seguimiento post-lanzamiento', actors:[['PM','teal'],['PO','purp'],['BU','purp']], manual:null },
+    { n:23, l:'Verificación y Go para el paso a producción', actors:[['PO','purp'],['PM','teal'],['BU','purp']], manual:'Para proceso manual: en espacios previos se obtiene el Go, se definen y aceptan características y flujo. Se entrega el UX al equipo encargado.' },
+    { n:24, l:'Despliegue en producción', actors:[['Squad técnico','gray'],['PO','purp']], manual:'Para proceso manual: el despliegue es el momento en que el equipo empieza a ejecutar el proceso.' },
+    { n:25, l:'Estadística y seguimiento post-lanzamiento', actors:[['PM','teal'],['PO','purp'],['BU','purp']], manual:null },
   ]},
 ];
 const AC = {
@@ -281,6 +280,7 @@ const AC = {
   gray:  { bg:R.gray.bg,  color:R.gray.da  },
   amber: { bg:R.amber.bg, color:R.amber.da },
   green: { bg:R.green.bg, color:R.green.da },
+  blue:  { bg:R.blue.bg,  color:R.blue.da  },
 };
 
 /* ════════════ EQUIPO ════════════ */
@@ -531,16 +531,56 @@ function SecIX() {
     <div>
       <Card style={{ marginBottom:16, borderLeft:`4px solid ${R.green.mi}`, background:R.green.bg }}>
         <div style={{ fontFamily:font, fontSize:13, fontWeight:800, color:R.green.da, marginBottom:4 }}>🎯 Línea directa: Líder P&amp;P ↔ Program Manager</div>
-        <p style={{ fontSize:11, color:R.green.da, lineHeight:1.65, margin:0, opacity:0.9 }}>Gobernanza estratégica del programa regional. El Program Manager construye las prioridades con el Líder P&amp;P y las baja en cascada a los Project Managers, quienes operan día a día con los squads. Lo que no se puede resolver en esa cadena escala de vuelta al Program y al Líder P&amp;P.</p>
+        <p style={{ fontSize:11, color:R.green.da, lineHeight:1.65, margin:0, opacity:0.9 }}>Gobernanza estratégica del programa regional. El Líder de P&amp;P construye las prioridades con el Program Manager y las bajan en cascada a sus equipos, quienes operan día a día dentro de los squads. Lo que no se puede resolver en esa cadena escala de vuelta al Program y al Líder P&amp;P.</p>
+      </Card>
+      <Card style={{ marginBottom:18, borderLeft:`4px solid ${R.teal.mi}`, background:R.teal.bg }}>
+        <div style={{ display:'flex', alignItems:'flex-start', gap:12 }}>
+          <div style={{ width:36, height:36, borderRadius:10, background:R.teal.mi, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:18 }}>🗺</div>
+          <div style={{ flex:1 }}>
+            <div style={{ fontFamily:font, fontSize:13, fontWeight:800, color:R.teal.da, marginBottom:4 }}>Product Manager — el conector del portafolio</div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:8, marginBottom:10 }}>
+              {[
+                { icon:'📋', t:'Qué gestiona', items:['Qué está y qué no está disponible','Timelines y como conoce la capacidad del equipo, no se compromete con entregas que el equipo no puede cumplir','Conecta POs y Process Owners','Roadmap cross-producto'] },
+                { icon:'🔭', t:'Qué mira', items:['Productos y procesos end-to-end','Experiencia completa del cliente','Eficiencia de procesos','Métricas del portafolio'] },
+                { icon:'📊', t:'Sus métricas', items:['CSAT por producto','Conversión por producto','CAC por producto','TTM · OE% · ERI · CStP'] },
+              ].map(col => (
+                <div key={col.t} style={{ background:'rgba(255,255,255,.55)', borderRadius:8, padding:'10px 12px' }}>
+                  <div style={{ fontSize:10, fontWeight:800, color:R.teal.da, marginBottom:6 }}>{col.icon} {col.t}</div>
+                  {col.items.map(i => <div key={i} style={{ fontSize:10, color:R.teal.xd, paddingLeft:10, position:'relative', marginBottom:3, lineHeight:1.4 }}><span style={{ position:'absolute', left:0, color:R.teal.mi, fontSize:8, top:2 }}>→</span>{i}</div>)}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </Card>
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:18 }}>
-        {[{ c:R.amber, icon:'🛒', t:'BO Canal Directo / E-comm', d:'Foco en la venta digital, cotizadores y e-commerce. Trae requisitos del canal directo y señales de conversión.', rel:'Define qué debe lograr el producto en el canal digital. No gestiona el delivery — su pregunta permanente es: ¿por qué alguien que llegó al cotizador no compró?' },{ c:R.amber, icon:'🤝', t:'BO Afinidades', d:'Foco en banca, asesores y aliados. Gestiona la relación comercial del canal afinidades y define cómo evoluciona el portafolio.', rel:'Define qué necesitan los aliados para vender mejor. Su pregunta permanente es: ¿por qué un asesor prefiere vender otro seguro y no el nuestro?' },{ c:R.blue, icon:'🌍', t:'Country Manager', d:'Dueño del resultado comercial en su país. Trae el foco del mercado local — regulaciones, aliados locales, apetito comercial y prioridades de expansión.', rel:'No gestiona el delivery. Habla con el PM. Su pregunta permanente es: ¿qué necesita mi mercado que el producto aún no tiene?' },{ c:R.purp, icon:'🏭', t:'BU — Business Unit', d:'5 clusters externos (Venta, Posventa, Membresía, Nuevos Productos, Analítica). Cada cluster puede activar iniciativas que impactan varios productos a la vez.', rel:'Habla únicamente con el PM. Su pregunta permanente es: ¿qué necesito para cumplir mis metas comerciales este trimestre?' }].map(x => (
+        {[
+          { c:R.blue, icon:'🌍', t:'Country Manager',
+            d:'Dueño del país. Aprueba toda iniciativa antes de entrar al backlog — venga del BO, PM, PO, BU o Process Owner. No libera el control al PM sin una hoja de ruta clara de implementación.',
+            rel:'Aprueba el backlog del país. Tiene contacto directo con POs para validar outcomes. Su pregunta permanente es: ¿cómo hacemos crecer la operación en este país?',
+            metrics:['NPS general del país','Revenue país','CAC total','Participación por canal'] },
+          { c:R.amber, icon:'🛒', t:'BO Canal Directo / E-comm',
+            d:'Foco en la venta digital y cotizadores. Define cómo crece la operación en el canal directo con iniciativas concretas de negocio.',
+            rel:'Define qué debe lograr el producto en el canal digital. Su pregunta permanente es: ¿por qué alguien que llegó al cotizador no compró?',
+            metrics:['Revenue canal directo','Conversión','CAC por negocio','Lifetime value'] },
+          { c:R.amber, icon:'🤝', t:'BO Afinidades',
+            d:'Foco en banca, asesores y aliados. Define cómo crece la operación con afinidades con iniciativas concretas por negocio particular.',
+            rel:'Define qué necesitan los aliados para vender mejor. Su pregunta permanente es: ¿por qué un asesor prefiere vender otro seguro y no el nuestro?',
+            metrics:['Revenue por negocio/aliado','Conversión por afinidad','CAC por negocio','Lifetime value'] },
+          { c:R.purp, icon:'🏭', t:'BU — Business Unit',
+            d:'5 clusters externos (Venta, Posventa, Membresía, Nuevos Productos, Analítica). Cada cluster puede activar iniciativas que impactan varios productos a la vez.',
+            rel:'Habla únicamente con el PM. Su pregunta permanente es: ¿qué necesito para cumplir mis metas comerciales este trimestre?',
+            metrics:['KPIs por cluster','Metas trimestrales'] },
+        ].map(x => (
           <Card key={x.t} style={{ borderLeft:`4px solid ${x.c.mi}` }}>
             <div style={{ fontFamily:font, fontSize:11, fontWeight:800, color:x.c.da, marginBottom:6 }}>{x.icon} {x.t}</div>
             <p style={{ fontSize:11, color:S.muted, lineHeight:1.6, margin:0, marginBottom:8 }}>{x.d}</p>
-            <div style={{ borderTop:`1px solid ${S.border}`, paddingTop:8 }}>
+            <div style={{ borderTop:`1px solid ${S.border}`, paddingTop:8, marginBottom:8 }}>
               <div style={{ fontSize:9, fontWeight:800, color:x.c.da, textTransform:'uppercase', letterSpacing:'.06em', marginBottom:4 }}>Su relación con producto</div>
               <p style={{ fontSize:10, color:S.muted, lineHeight:1.55, margin:0 }}>{x.rel}</p>
+            </div>
+            <div style={{ display:'flex', flexWrap:'wrap', gap:4 }}>
+              {x.metrics.map(m => <span key={m} style={{ fontSize:9, fontWeight:700, padding:'2px 8px', borderRadius:20, background:x.c.bg, color:x.c.da }}>{m}</span>)}
             </div>
           </Card>
         ))}
@@ -548,7 +588,7 @@ function SecIX() {
       <Sec n="1" t="Espectro comercial — técnico" />
       <EspectroCard />
       <Sec n="2" t="Mapa de interacciones" />
-      {[{ label:'Product Manager', color:R.teal, entries:IXS.filter(ix=>ix.from==='Product Manager') },{ label:'Product Owners', color:R.purp, entries:IXS.filter(ix=>ix.from==='Product Owners'||ix.from==='Business Owners') },{ label:'Process Owners', color:R.coral, entries:IXS.filter(ix=>ix.from==='Process Owners') }].map(group => (
+      {[{ label:'Country Manager', color:R.blue, entries:IXS.filter(ix=>ix.from==='Country Manager') },{ label:'Product Manager', color:R.teal, entries:IXS.filter(ix=>ix.from==='Product Manager') },{ label:'Product Owners', color:R.purp, entries:IXS.filter(ix=>ix.from==='Product Owners'||ix.from==='Business Owners') },{ label:'Process Owners', color:R.coral, entries:IXS.filter(ix=>ix.from==='Process Owners') }].map(group => (
         <div key={group.label} style={{ marginBottom:20 }}>
           <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
             <div style={{ width:10, height:10, borderRadius:'50%', background:group.color.mi, flexShrink:0 }} />
