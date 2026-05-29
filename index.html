@@ -8,7 +8,15 @@
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;background:#EBF4FC;}#root{min-height:100%;}button,input,select{font-family:'Nunito','Segoe UI',sans-serif;}::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:#EBF4FC;}::-webkit-scrollbar-thumb{background:#C8DFF0;border-radius:3px;}</style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: #EBF4FC; }
+    #root { min-height: 100%; }
+    button, input, select { font-family: 'Nunito', 'Segoe UI', sans-serif; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #EBF4FC; }
+    ::-webkit-scrollbar-thumb { background: #C8DFF0; border-radius: 3px; }
+  </style>
 </head>
 <body>
   <div id="root"></div>
@@ -234,18 +242,18 @@ const INIT_G = [
 ];
 const FLOW_STEPS = [
   { phase:'Priorización y negociación', c:R.blue, loop:false, steps:[
-    { n:1, l:'Llega la iniciativa al PM con contexto de negocio', actors:[['PM','teal'],['BU','purp']], manual:'Cualquier iniciativa — venga del BO, del PO, de la BU, de un Process Owner o del CM directamente — pasa primero por el PM. El PM la prioriza frente al portafolio completo.' },
-    { n:2, l:'PM construye la hoja de ruta de implementación para el CM', actors:[['PM','teal']], manual:'La hoja de ruta incluye: qué se entrega, timelines honestos, qué POs y squads están involucrados y cómo se medirá el éxito en el país. Sin este documento el CM no aprueba.' },
-    { n:3, l:'CM revisa y aprueba la iniciativa para que entre al backlog', actors:[['CM','blue'],['PM','teal']], manual:'El CM es el dueño del país. Toda iniciativa debe tener su aprobación antes de entrar al backlog — sin excepción. El CM puede aprobar, rechazar o pedir ajustes. No suelta el control hasta tener claridad total sobre el impacto esperado en el mercado.' },
-    { n:4, l:'PM traslada las prioridades del CM al PO del producto involucrado', actors:[['PM','teal'],['PO','purp']], manual:'El PM le dice al PO: "El CM aprobó esta iniciativa con estos criterios de éxito y estos timelines." El PO recibe el contexto completo del por qué comercial y del país.' },
-    { n:5, l:'PO hace la contrapropuesta: conoce su backlog y sabe qué es viable', actors:[['PO','purp'],['PM','teal']], manual:'El PO es dueño de su backlog de features y mejoras intrínsecas del producto. Conoce la deuda técnica, las dependencias y el ritmo real del squad. Su contrapropuesta puede ajustar alcance, secuencia o timelines — sin perder el objetivo del CM.' },
-    { n:6, l:'PM negocia con CM y BO: presenta la contrapropuesta y cierra el acuerdo', actors:[['PM','teal'],['CM','blue'],['BO','amber']], manual:'El PM lleva la contrapropuesta del PO al CM y al BO. Aquí se negocia el balance entre lo que el país necesita (CM), lo que el canal pide (BO) y lo que el producto puede entregar (PO). El PM traduce, media y cierra un acuerdo realista. Sin acuerdo, no se asigna squad.' },
-    { n:7, l:'Entra la iniciativa al backlog del squad con el alcance acordado', actors:[['PM','teal']], manual:null },
-    { n:8, l:'Asignar el squad que va a trabajar la iniciativa', actors:[['PM','teal'],['PO','purp']], manual:null },
+    { n:1, l:'Cualquier iniciativa — venga del BO, del PO, de la BU, de un Process Owner o del CM directamente — pasa primero por el PM. El PM la compara frente al portafolio completo', actors:[['PM','teal'],['BU','purp']] },
+    { n:2, l:'PM construye la hoja de ruta de implementación para el CM. La hoja de ruta incluye: qué se entrega, timelines honestos, qué POs estarían involucrados y cómo se medirá el éxito en el país. Sin este documento el CM no aprueba.', actors:[['PM','teal'],['CM','blue']] },
+    { n:3, l:'El CM es el dueño del país. Toda iniciativa debe tener su aprobación antes de entrar al backlog — sin excepción. El CM puede aprobar, rechazar o pedir ajustes. No suelta el control hasta tener claridad total sobre el impacto esperado en el mercado.', actors:[['CM','blue'],['PM','teal']] },
+    { n:4, l:'PM traslada las prioridades del CM al PO del producto involucrado. El PM le dice al PO: "El CM aprobó esta iniciativa con estos criterios de éxito y estos timelines." El PO recibe el contexto completo del por qué comercial y del país.', actors:[['PM','teal'],['PO','purp']] },
+    { n:5, l:'PO hace la contrapropuesta: conoce su backlog y sabe qué es viable. El PO es dueño de su backlog de features y mejoras intrínsecas del producto. Conoce la deuda técnica, las dependencias y el ritmo real del squad. Su contrapropuesta puede ajustar alcance, secuencia o timelines — sin perder el objetivo del CM.', actors:[['PO','purp'],['PM','teal']] },
+    { n:6, l:'PM negocia con CM y BO: presenta la contrapropuesta y cierra el acuerdo. El PM lleva la contrapropuesta del PO al CM y al BO. Aquí se negocia el balance entre lo que el país necesita (CM), lo que el canal pide (BO) y lo que el producto puede entregar (PO). El PM traduce, media y cierra un acuerdo realista. Sin acuerdo, no se asigna squad.', actors:[['PM','teal'],['CM','blue'],['BO','amber']] },
+    { n:7, l:'Asignar el squad que va a trabajar la iniciativa', actors:[['ProgramM','teal'],['LiderP&P','purp']], manual:null },
+    { n:8, l:'Entra la iniciativa al backlog del squad con el alcance acordado', actors:[['PM','teal'],['ProgramM','teal']] },
   ]},
   { phase:'Arranque', c:R.amber, loop:false, steps:[
-    { n:9,  l:'Planeación inicial: cómo se abordará la iniciativa', actors:[['PO','purp'],['PM','teal']], manual:'Se define qué se espera de cada equipo y los pasos a seguir. El aliado recibe contexto y el PM queda al tanto.' },
-    { n:10, l:'Reunión de kick-off: contexto a alto nivel y cómo se va a trabajar', actors:[['PO','purp'],['PM','teal'],['Squad','gray'],['Aliado','amber']], manual:null },
+    { n:9,  l:'Planeación inicial: cómo se abordará la iniciativa', actors:[['PO','purp'],['equipo P&P','teal']], manual:'Se define qué se espera de cada equipo y los pasos a seguir. El aliado recibe contexto y el PM queda al tanto.' },
+    { n:10, l:'Reunión de kick-off: contexto a alto nivel y cómo se va a trabajar', actors:[['PO','purp'],['PM','teal'],['Squad','gray'],['Aliado','amber'],['BU','teal']], manual:null },
   ]},
   { phase:'Diseño y Discovery', c:R.teal, loop:false, steps:[
     { n:11, l:'Diseño del proceso o iniciativa a alto nivel', actors:[['PO','purp'],['ProcOwner','coral']], manual:null },
